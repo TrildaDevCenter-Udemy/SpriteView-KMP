@@ -52,11 +52,11 @@ fun SpriteView(
     }
 
     val spriteImage = imageResource(
-        if (screenCategory == ScreenCategory.Small && spec.small != null) spec.small.image
-        else if (screenCategory == ScreenCategory.Normal && spec.normal != null) spec.normal.image
-        else if (screenCategory == ScreenCategory.Large && spec.large != null) spec.large.image
-        else if (screenCategory == ScreenCategory.Tablet && spec.tablet != null) spec.tablet.image
-        else spec.default.image
+        if (screenCategory == ScreenCategory.Small && spec.small != null) spec.small.sheet
+        else if (screenCategory == ScreenCategory.Normal && spec.normal != null) spec.normal.sheet
+        else if (screenCategory == ScreenCategory.Large && spec.large != null) spec.large.sheet
+        else if (screenCategory == ScreenCategory.Tablet && spec.tablet != null) spec.tablet.sheet
+        else spec.default.sheet
     )
     val currentFrame = spriteState.currentFrame.collectAsState().value
     // Get the row and column position based on the current frame
@@ -69,8 +69,8 @@ fun SpriteView(
     val frameSize by remember {
         derivedStateOf {
             IntSize(
-                spec.getCorrectFrameSize(screenWidth).width,
-                spec.getCorrectFrameSize(screenWidth).height
+                spec.getCorrectFrameSize(screenWidth).frameWidth,
+                spec.getCorrectFrameSize(screenWidth).frameHeight
             )
         }
     }

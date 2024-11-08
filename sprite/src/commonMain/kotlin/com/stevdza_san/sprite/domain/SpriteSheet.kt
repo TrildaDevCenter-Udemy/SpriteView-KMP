@@ -21,15 +21,15 @@ import org.jetbrains.compose.resources.DrawableResource
  * The above graph represents an image that consist of 9 different
  * sprite frames. It has 3 columns and three rows of image frames.
  * Sprite animation starts from the frame 1.
- * @param width The width of your whole exported sprite sheet image,
+ * @param frameWidth The width of a single frame within the sprite sheet,
+ *  * represented in px.
+ * @param frameHeight The height of a single frame within the sprite sheet,
  * represented in px.
- * @param height The height of your whole exported sprite sheet image,
- * represented in px.
- * @param image The actual PNG/JPG image resources, that you have added
+ * @param sheet The actual PNG/JPG image resources, that you have added
  * to your project's common 'composeResource' directory.
  * */
 data class SpriteSheet(
-    val width: Int,
-    val height: Int,
-    val image: DrawableResource
+    val frameWidth: Int,
+    val frameHeight: Int,
+    val sheet: DrawableResource
 )

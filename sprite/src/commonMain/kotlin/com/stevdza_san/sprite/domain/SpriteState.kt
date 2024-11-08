@@ -88,7 +88,7 @@ class SpriteState(
 @Composable
 fun rememberSpriteState(
     totalFrames: Int,
-    animationDuration: Long = 50L
+    animationSpeed: Long = 50L
 ): SpriteState {
-    return remember { SpriteState(totalFrames, animationDuration) }
+    return remember { SpriteState(totalFrames, animationSpeed) }
 }
