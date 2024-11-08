@@ -6,7 +6,7 @@
 
 <p align="center">⚠️ Work in progress</p>
 <p align="center">
-This is a simple UI component that allows you to render and play ***Sprite Sheet*** animation in your composable screen. A Sprite Sheet is a single image file that contains multiple smaller <b>images</b> <i>(or "frames")</i> arranged in a <b>grid</b>. Each frame represents a different stage or part of an animation, often used in 2D video games and animations. By displaying frames in a sequence, a sprite sheet creates the illusion of movement or changes in appearance.
+This is a simple UI component that allows you to render and play <b>Sprite Sheet</b> animation in your composable screen. A Sprite Sheet is a single image file that contains multiple smaller <b>images</b> <i>(or "frames")</i> arranged in a <b>grid</b>. Each frame represents a different stage or part of an animation, often used in 2D video games and animations. By displaying frames in a sequence, a sprite sheet creates the illusion of movement or changes in appearance.
 </p><br>
 
 <p align="center">
