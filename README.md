@@ -6,7 +6,7 @@
 
 <p align="center">⚠️ Work in progress</p>
 <p align="center">
-This is a simple UI component that allows you to render and play sprite sheet animation in your composable screen. A sprite sheet is a single image file that contains multiple smaller <b>images</b> <i>(or "frames")</i> arranged in a <b>grid</b>. Each frame represents a different stage or part of an animation, often used in 2D video games and animations. By displaying frames in a sequence, a sprite sheet creates the illusion of movement or changes in appearance.
+This is a simple UI component that allows you to render and play Sprite Sheet animation in your composable screen. A Sprite Sheet is a single image file that contains multiple smaller <b>images</b> <i>(or "frames")</i> arranged in a <b>grid</b>. Each frame represents a different stage or part of an animation, often used in 2D video games and animations. By displaying frames in a sequence, a sprite sheet creates the illusion of movement or changes in appearance.
 </p><br>
 
 <p align="center">
@@ -15,9 +15,9 @@ This is a simple UI component that allows you to render and play sprite sheet an
 </p>
 
 ### How does it work?
-1. First you need to make sure that you have a sprite sheet. You can create one by yourself if you're a graphic designer, or download it from websites like <a href="https://www.gameart2d.com/freebies.html">THIS</a> for example.
-2. It's a good thing if you are familiar with the basics of Figma or any other similar software. Because you can then import that sprite sheet and create the one with custom dimensions. That single sheet file should contain smaller frames arranged in a grid. All smaller frames should have the same size. Make sure that there's no any extra space between smaller frames, that's how your sprite sheet animation will look perfect! Plus you need to copy the width/height values of the smaller frame, because you're gonna pass it to `SpriteSheet` data class, later.
-3. Export the sprite sheet as a single .PNG file *(Don't forget to remove the white background color so that your sheet can be transparent)*.
+1. First you need to make sure that you have a Sprite Sheet. You can create one by yourself if you're a graphic designer, or download it from websites like <a href="https://www.gameart2d.com/freebies.html">THIS</a> for example.
+2. It's a good thing if you are familiar with the basics of ***Figma*** or any other similar software. Because you can then import that sprite sheet and create the one with custom dimensions. That single Sheet file should contain smaller frames arranged in a ***grid***. All smaller frames should have the same size. Make sure that there's no any extra space between smaller frames, that's how your sprite sheet animation will look perfect! Plus you need to copy the width/height values of the smaller frame, because you're gonna pass it to `SpriteSheet` data class, later.
+3. Export the sprite sheet as a single .PNG file *(Remove the white background color so that your Sheet can be transparent)*.
 4. Scroll down below to read how to integrate it in your KMP/CMP project.
 
 <img src="images/example.png?raw=true" width="350"/>
