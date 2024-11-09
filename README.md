@@ -17,7 +17,7 @@ This is a simple UI component that allows you to render and play <b>Sprite Sheet
 1. First you need to make sure that you have a Sprite Sheet. You can create one by yourself if you're a graphic designer, or download it from websites like <a href="https://www.gameart2d.com/freebies.html">THIS</a> for example.
 2. It's a good thing if you are familiar with the basics of ***Figma*** or any other similar software. Because you can then import that sprite sheet and create the one with custom dimensions. That single Sheet file should contain smaller frames arranged in a ***grid***. All smaller frames should have the same size. Make sure that there's no any extra space between smaller frames, that's how your sprite sheet animation will look perfect! Plus you need to copy the width/height values of the smaller frame, because you're gonna pass it to `SpriteSheet` data class, later.
 3. Export the sprite sheet as a single .PNG file *(Remove the white background color so that your Sheet can be transparent)*.
-4. Scroll down below to read how to integrate it in your KMP/CMP project. This library works by iterating through the frames of the Sprite Sheet file that you have provide. You can even customize the speed of the animation.
+4. Scroll down below to read how to integrate it in your KMP/CMP project. This library works by iterating through the frames of the Sprite Sheet file that you have provided. You can even customize the speed of the animation.
 
 <img src="images/example.png?raw=true" width="350"/>
 
