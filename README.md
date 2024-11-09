@@ -39,6 +39,7 @@ commonMain.dependencies {
 Lastly, there are two functions that you can use to control when to `start()` or `stop()` the animation.
 
 ```kotlin
+val screenWidth = getScreenWidth().value
 val spriteState = rememberSpriteState(
     totalFrames = 9,
     framesPerRow = 3,
@@ -61,6 +62,7 @@ Column(
     SpriteView(
         spriteState = spriteState,
         spriteSpec = SpriteSpec(
+            screenWidth = screenWidth,
             default = SpriteSheet(
                 frameWidth = 253,
                 frameHeight = 303,
@@ -98,6 +100,7 @@ Column(
     SpriteView(
         spriteState = spriteState,
         spriteSpec = SpriteSpec(
+            screenWidth = screenWidth,
             default = SpriteSheet(
                 frameWidth = 253,
                 frameHeight = 303,
