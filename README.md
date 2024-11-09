@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://central.sonatype.com/artifact/com.stevdza-san/sprite"><img alt="Profile" src="https://badgen.net/badge/Maven Central/v1.0.1/blue?icon=github"/></a>
+  <a href="https://central.sonatype.com/artifact/com.stevdza-san/sprite"><img alt="Profile" src="https://badgen.net/badge/Maven Central/v1.0.1-alpha01/blue?icon=github"/></a>
 </p>
 
 # <p align="center">🐰 SpriteView</p>
@@ -26,7 +26,7 @@ This is a simple UI component that allows you to render and play <b>Sprite Sheet
 You can add a dependency inside the `commonMain` source set:
 ```gradle
 commonMain.dependencies {
-    implementation("com.stevdza-san:sprite:1.0.1")
+    implementation("com.stevdza-san:sprite:1.0.1-alpha01")
 }
 ```
 
@@ -87,7 +87,7 @@ Column(
 ```
 Sprite sheet animation is triggered inside the coroutine scope, which is why it is a good practice to cancel it when you no longer need it. That's why I've exposed a function called `cleanup()` that allows you to do exactly that. You can utilize a `DisposableEffect()` to achieve that.
 
-### Multiple Screen Size Usage
+### Screen Size Usage
 There are four `ScreenCategory` entries. `Small` reserved for smaller mobile devices from **0dp to 360dp** in width. `Normal` reserved for normal mobile devices from **360dp to 600dp** in width. `Large` reserved for larger mobile devices from **600dp to 800dp** in width. `Tablet` reserved for tablet devices from more then **800dp** in width.
 
 For each one of the above-mentioned categories, you can pass a custom `SpriteSheet` with different dimensions that can adapt well on various screen sizes.
