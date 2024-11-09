@@ -32,17 +32,18 @@ commonMain.dependencies {
 
 ### Basic Usage
 
-`rememberSpriteState` has one required (`totalFrames`) and one optional (`animationSpeed`) parameter. The first one is used to specify how many frames you got in your sprite sheet, it's really important for calculating the proper offset value when animating. The second one on the other hand is used to specify a speed of iterating through frames of your sprite sheet. A default value is 50ms.
+`rememberSpriteState` has two required (`totalFrames`, `framesPerRow`) and one optional (`animationSpeed`) parameter. The first one is used to specify how many frames you got in your sprite sheet, it's really important for calculating the proper offset value when animating. The second one is used to specify how many frames you go in each row, if there are multiple rows of sprite frames. The third one on the other hand is used to specify a speed of iterating through frames of your sprite sheet. A default value is 50ms.
 
 Sprite sheet animation is triggered inside the coroutine scope, which is why it is a good practice to cancel it when you no longer need it. That's why I've exposed a function called `cleanup()` that allows you to do exactly that. You can utilize a `DisposableEffect()` to achieve that.
 
-`SpriteView` composable accepts three parameters. `framesPerRow` is an important for correctly rendering the animation. In the above image we have 9 frames, where 3 frames are placed per row. Which is why in this case you would pass number 3. `spec` parameter allows you to pass multiple `SpriteSheet`s if you're planning to adapt to different screen sizes correctly. Otherwise you can pass only a single `default` `SpriteSheet` instead. Each `SpriteSheet` accepts `frameWidth`, `frameHeight` values of a single frame of your sheet represented in px, as well as the actual `sheet` resource that you have previously added in your common `composeResource` directory.
+`SpriteView` composable accepts three parameters. The first `SpriteState` manages the state of a sprite sheet animation by controlling the frame transitions and animation timing. The second `SpriteSpec` parameter allows you to pass multiple `SpriteSheet`s if you're planning to adapt to different screen sizes correctly. Otherwise you can pass only a single `default` `SpriteSheet` instead. Each `SpriteSheet` accepts `frameWidth`, `frameHeight` parameters, that represents a single frame of your `SpriteSheet` `image` represented in px, as well as the actual `image` resource that you have previously added in your common `composeResource` directory.
 
 Lastly, there are two functions that you can use to control when to `start()` or `stop()` the animation.
 
 ```kotlin
 val spriteState = rememberSpriteState(
     totalFrames = 9,
+    framesPerRow = 3,
     animationSpeed = 50
 )
 val animationRunning by spriteState.isRunning.collectAsState()
@@ -61,14 +62,13 @@ Column(
 ) {
     SpriteView(
         spriteState = spriteState,
-        spec = SpriteSpec(
+        spriteSpec = SpriteSpec(
             default = SpriteSheet(
                 frameWidth = 253,
                 frameHeight = 303,
-                sheet = Res.drawable.sprite_normal
+                image = Res.drawable.sprite_normal
             )
-        ),
-        framesPerRow = 3
+        )
     )
     Box {
         Button(
@@ -98,34 +98,33 @@ Column(
 ) {
     SpriteView(
         spriteState = spriteState,
-        spec = SpriteSpec(
+        spriteSpec = SpriteSpec(
             default = SpriteSheet(
                 frameWidth = 253,
                 frameHeight = 303,
-                sheet = Res.drawable.sprite_normal
+                image = Res.drawable.sprite_normal
             ),
             small = SpriteSheet(
                 frameWidth = 149,
                 frameHeight = 179,
-                sheet = Res.drawable.sprite_small
+                image = Res.drawable.sprite_small
             ),
             normal = SpriteSheet(
                 frameWidth = 253,
                 frameHeight = 303,
-                sheet = Res.drawable.sprite_normal
+                image = Res.drawable.sprite_normal
             ),
             large = SpriteSheet(
                 frameWidth = 377,
                 frameHeight = 451,
-                sheet = Res.drawable.sprite_large
+                image = Res.drawable.sprite_large
             ),
             tablet = SpriteSheet(
                 frameWidth = 619,
                 frameHeight = 740,
-                sheet = Res.drawable.sprite_tablet
+                image = Res.drawable.sprite_tablet
             )
-        ),
-        framesPerRow = 3
+        )
     )
 }
 ```
