@@ -36,12 +36,10 @@ commonMain.dependencies {
 
 `SpriteView` composable accepts three parameters.
 1. Composable `Modifier`.
-2. `SpriteState` which manages the state of a sprite sheet animation by controlling the frame transitions and animation timing.
+2. `SpriteState` which manages the state of a sprite sheet animation by controlling the frame transitions and animation timing. There are two functions that you can use to control when to `start()` or `stop()` the animation, and the third one `cleanup()` to cancel the internal `Coroutine Scope`.
 3. `SpriteSpec` parameter allows you to pass multiple `SpriteSheet`s if you're planning to adapt to different screen sizes correctly. Otherwise you can pass only a single `default` `SpriteSheet` instead. `SpriteSpec` accepts `screenWidth` parameter, because it needs to calculate and display the correct `SpriteSheet` size, based on the current screen width. Luckily this library offers one useful function called `getScreenWidth()` that allows you to get the current screen width on both Android/iOS.
 
 Each `SpriteSheet` accepts `frameWidth`, `frameHeight` parameters, that represents a single frame of your `SpriteSheet` `image` represented in px, as well as the actual `image` resource that you have previously added in your common `composeResource` directory.
-
-Lastly, there are two functions that you can use to control when to `start()` or `stop()` the animation.
 
 ```kotlin
 val screenWidth = getScreenWidth().value
