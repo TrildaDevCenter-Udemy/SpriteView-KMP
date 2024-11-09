@@ -32,7 +32,7 @@ commonMain.dependencies {
 
 ### Basic Usage
 
-`rememberSpriteState` has two required (`totalFrames`, `framesPerRow`) and one optional (`animationSpeed`) parameter. The first one is used to specify how many frames you got in your sprite sheet. The second one is used to specify how many frames you got in each row, if there are multiple rows of sprite frames of cource. It's really important for calculating the proper offset value when animating. The third one on the other hand is used to specify a speed of iterating through frames of your sprite sheet. A default value is 50ms.
+`rememberSpriteState` has two required (`totalFrames`, `framesPerRow`) and one optional (`animationSpeed`) parameter. The first one is used to specify how many frames you got in your sprite sheet. The second one is used to specify how many frames you got in each row, if there are multiple rows of sprite frames of course. It's really important for calculating the proper offset value when animating. The third one on the other hand is used to specify a speed of iterating through frames of your sprite sheet. A default value is 50ms.
 
 `SpriteView` composable accepts three parameters.
 1. Composable `Modifier`.
