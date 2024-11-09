@@ -32,7 +32,7 @@ commonMain.dependencies {
 
 ### Basic Usage
 
-`rememberSpriteState` has three required (`totalFrames`, `framesPerRow`) and one optional (`animationSpeed`) parameter. The first one is used to specify how many frames you got in your sprite sheet, it's really important for calculating the proper offset value when animating. The second one is used to specify how many frames you go in each row, if there are multiple rows of sprite frames. The third one on the other hand is used to specify a speed of iterating through frames of your sprite sheet. A default value is 50ms.
+`rememberSpriteState` has two required (`totalFrames`, `framesPerRow`) and one optional (`animationSpeed`) parameter. The first one is used to specify how many frames you got in your sprite sheet, it's really important for calculating the proper offset value when animating. The second one is used to specify how many frames you go in each row, if there are multiple rows of sprite frames. The third one on the other hand is used to specify a speed of iterating through frames of your sprite sheet. A default value is 50ms.
 
 Sprite sheet animation is triggered inside the coroutine scope, which is why it is a good practice to cancel it when you no longer need it. That's why I've exposed a function called `cleanup()` that allows you to do exactly that. You can utilize a `DisposableEffect()` to achieve that.
 
