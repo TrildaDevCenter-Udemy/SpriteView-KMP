@@ -92,7 +92,7 @@ There are four `ScreenCategory` entries. `Small` reserved for smaller mobile dev
 
 For each one of the above-mentioned categories, you can pass a custom `SpriteSheet` with different dimensions that can adapt well on various screen sizes.
 
-This repository contains sample `images` directory where you can find demo sprite sheets. Frame dimensions in the code below, are representing frames from those same demo sprite sheets.
+This repository contains sample <a href="/images">images</a> directory where you can find demo sprite sheets. Frame dimensions in the code below, are representing frames from those same demo sprite sheets.
 
 ```kotlin
 Column(
