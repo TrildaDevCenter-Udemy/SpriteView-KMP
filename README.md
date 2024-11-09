@@ -129,7 +129,10 @@ Column(
 ```
 
 ### Canvas Usage
-There's another useful function in this library, that allows you to add this sprite sheet animation directly inside the `DrawScope()` of the `Canvas`.
+There's another useful function in this library, that allows you to add this sprite sheet animation directly inside the `DrawScope()` of the `Canvas`. It's called `drawSpriteView()`, and unlike the `SpriteView()` this one requires additional parameters, because it doesn't allow `@Composable` context inside it.
+
+1. `currentFrame` is a StateFlow value that holds the current frame of the sprite sheet. Since we cannot directly collect that state inside the `DrawScope()` of the canvas, we need to observe it outside of the `drawSpriteView()` and then pass it along.
+2. `image` represents the `ImageBitmap` *(sprite sheet image)* that we have placed in the common composeResource directory. That object is available within the `SpriteSpec` object, which is in charge for choosing a correct sprite sheet image, based on the current `screenWidth`. 
 
 ```kotlin
 val screenWidth = getScreenWidth().value
