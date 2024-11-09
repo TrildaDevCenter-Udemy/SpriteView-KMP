@@ -34,8 +34,6 @@ commonMain.dependencies {
 
 `rememberSpriteState` has two required (`totalFrames`, `framesPerRow`) and one optional (`animationSpeed`) parameter. The first one is used to specify how many frames you got in your sprite sheet, it's really important for calculating the proper offset value when animating. The second one is used to specify how many frames you got in each row, if there are multiple rows of sprite frames of cource. The third one on the other hand is used to specify a speed of iterating through frames of your sprite sheet. A default value is 50ms.
 
-Sprite sheet animation is triggered inside the coroutine scope, which is why it is a good practice to cancel it when you no longer need it. That's why I've exposed a function called `cleanup()` that allows you to do exactly that. You can utilize a `DisposableEffect()` to achieve that.
-
 `SpriteView` composable accepts three parameters. The first `SpriteState` manages the state of a sprite sheet animation by controlling the frame transitions and animation timing. The second `SpriteSpec` parameter allows you to pass multiple `SpriteSheet`s if you're planning to adapt to different screen sizes correctly. Otherwise you can pass only a single `default` `SpriteSheet` instead. Each `SpriteSheet` accepts `frameWidth`, `frameHeight` parameters, that represents a single frame of your `SpriteSheet` `image` represented in px, as well as the actual `image` resource that you have previously added in your common `composeResource` directory.
 
 Lastly, there are two functions that you can use to control when to `start()` or `stop()` the animation.
@@ -82,6 +80,7 @@ Column(
     }
 }
 ```
+Sprite sheet animation is triggered inside the coroutine scope, which is why it is a good practice to cancel it when you no longer need it. That's why I've exposed a function called `cleanup()` that allows you to do exactly that. You can utilize a `DisposableEffect()` to achieve that.
 
 ### Multiple Screen Support Usage
 There are four `ScreenCategory` entries. `small` reserved for smaller mobile devices from **0dp to 360dp** in width. `normal` reserved for normal mobile devices from **360dp to 600dp** in width. `large` reserved for larger mobile devices from **600dp to 800dp** in width. `tablet` reserved for tablet devices from more then **800dp** in width.
