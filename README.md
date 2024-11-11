@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://central.sonatype.com/artifact/com.stevdza-san/sprite"><img alt="Profile" src="https://badgen.net/badge/Maven Central/v1.0.3/blue?icon=github"/></a>
+  <a href="https://central.sonatype.com/artifact/com.stevdza-san/sprite"><img alt="Profile" src="https://badgen.net/badge/Maven Central/v1.0.4/blue?icon=github"/></a>
 </p>
 
 # <p align="center">🐰 SpriteView</p>
@@ -28,7 +28,7 @@ This is a simple UI component that allows you to render and play <b>Sprite Sheet
 You can add a dependency inside the `commonMain` source set:
 ```gradle
 commonMain.dependencies {
-    implementation("com.stevdza-san:sprite:1.0.3")
+    implementation("com.stevdza-san:sprite:1.0.4")
 }
 ```
 
