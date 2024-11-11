@@ -39,12 +39,12 @@ commonMain.dependencies {
 `SpriteView` composable accepts three parameters.
 1. Composable `Modifier`.
 2. `SpriteState` which manages the state of a sprite sheet animation by controlling the frame transitions and animation timing. There are two functions that you can use to control when to `start()` or `stop()` the animation, and the third one `cleanup()` to cancel the internal `Coroutine Scope`.
-3. `SpriteSpec` parameter allows you to pass multiple `SpriteSheet`s if you're planning to adapt to different screen sizes correctly. Otherwise you can pass only a single `default` `SpriteSheet` instead. `SpriteSpec` accepts `screenWidth` parameter, because it needs to calculate and display the correct `SpriteSheet` size, based on the current screen width. Luckily this library offers one useful function called `getScreenWidth()` that allows you to get the current screen width on both Android/iOS.
+3. `SpriteSpec` parameter allows you to pass multiple `SpriteSheet`s if you're planning to adapt to different screen sizes correctly. Otherwise you can pass only a single `default` `SpriteSheet` instead. `SpriteSpec` accepts `screenWidth` parameter, because it needs to calculate and display the correct `SpriteSheet` size, based on the current screen width. 
 
 Each `SpriteSheet` accepts `frameWidth`, `frameHeight` parameters, that represents a single frame of your `SpriteSheet` `image` represented in px, as well as the actual `image` resource that you have previously added in your common `composeResource` directory.
 
 ```kotlin
-val screenWidth = getScreenWidth().value
+val screenWidth by remember { mutableStateOf(0) }
 val spriteState = rememberSpriteState(
     totalFrames = 9,
     framesPerRow = 3,
@@ -60,7 +60,12 @@ DisposableEffect(Unit) {
 }
 
 Column(
-    modifier = Modifier.fillMaxSize(),
+    modifier = Modifier
+      .fillMaxSize()
+      .onGloballyPositioned {
+          screenWidth = it.size.width
+          screenHeight = it.size.height
+    },
     verticalArrangement = Arrangement.Center,
     horizontalAlignment = Alignment.CenterHorizontally
 ) {
@@ -153,7 +158,7 @@ There's another useful function in this library, that allows you to add this spr
 2. `image` represents the `ImageBitmap` *(sprite sheet image)* that we have placed in the common composeResource directory. That object is available within the `SpriteSpec` object, which is in charge for choosing a correct sprite sheet image, based on the current `screenWidth`. 
 
 ```kotlin
-val screenWidth = getScreenWidth().value
+val screenWidth by remember { mutableStateOf(0) }
 val spriteState = rememberSpriteState(
   totalFrames = 9,
   framesPerRow = 3,
@@ -181,7 +186,12 @@ DisposableEffect(Unit) {
 }
 
 Box(
-  modifier = Modifier.fillMaxSize(),
+  modifier = Modifier
+      .fillMaxSize()
+      .onGloballyPositioned {
+          screenWidth = it.size.width
+          screenHeight = it.size.height
+    },
   contentAlignment = Alignment.Center
 ) {
   Canvas(modifier = Modifier.fillMaxSize()) {
