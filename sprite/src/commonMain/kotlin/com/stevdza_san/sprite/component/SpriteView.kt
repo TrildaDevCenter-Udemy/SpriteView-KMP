@@ -10,15 +10,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
-import com.stevdza_san.sprite.domain.SpriteSpec
 import com.stevdza_san.sprite.domain.ScreenCategory
+import com.stevdza_san.sprite.domain.SpriteFlip
+import com.stevdza_san.sprite.domain.SpriteSpec
 import com.stevdza_san.sprite.domain.SpriteState
-import com.stevdza_san.sprite.util.getScreenWidth
-import com.stevdza_san.sprite.util.parseCategory
-import org.jetbrains.compose.resources.imageResource
 
 /**
  * Composable function which is used to display and animate the
@@ -31,11 +33,11 @@ import org.jetbrains.compose.resources.imageResource
  * of movement or changes in appearance.
  *
  * @param modifier Optional modifier.
- * @param spriteState
- * @param spec [SpriteSpec] is used to optionally pass multiple sprite sheets with
+ * @param spriteState [SpriteState] manages the state of a sprite sheet animation.
+ * @param spriteSpec [SpriteSpec] is used to optionally pass multiple sprite sheets with
  * different dimensions, to support various screen sizes. You can optionally include multiple
  * sprite sheets, or use only one (default).
- * @param framesPerRow The number of frames that are included in the sprite sheet, per row.
+ * @param spriteFlip Use it to flip the sprite Vertically, Horizontally or both Vertically and Horizontally.
  *
  * @see ScreenCategory
  * */
@@ -43,34 +45,23 @@ import org.jetbrains.compose.resources.imageResource
 fun SpriteView(
     modifier: Modifier = Modifier,
     spriteState: SpriteState,
-    spec: SpriteSpec,
-    framesPerRow: Int
+    spriteSpec: SpriteSpec,
+    spriteFlip: SpriteFlip? = null
 ) {
-    val screenWidth = getScreenWidth().value.toInt()
-    val screenCategory by remember {
-        derivedStateOf { screenWidth.parseCategory() }
-    }
-
-    val spriteImage = imageResource(
-        if (screenCategory == ScreenCategory.Small && spec.small != null) spec.small.sheet
-        else if (screenCategory == ScreenCategory.Normal && spec.normal != null) spec.normal.sheet
-        else if (screenCategory == ScreenCategory.Large && spec.large != null) spec.large.sheet
-        else if (screenCategory == ScreenCategory.Tablet && spec.tablet != null) spec.tablet.sheet
-        else spec.default.sheet
-    )
+    val spriteImage = spriteSpec.imageBitmap
     val currentFrame = spriteState.currentFrame.collectAsState().value
     // Get the row and column position based on the current frame
     val row by rememberUpdatedState(
-        newValue = currentFrame / framesPerRow
+        newValue = currentFrame / spriteState.framesPerRow
     )
     val column by rememberUpdatedState(
-        newValue = currentFrame % framesPerRow
+        newValue = currentFrame % spriteState.framesPerRow
     )
     val frameSize by remember {
         derivedStateOf {
             IntSize(
-                spec.getCorrectFrameSize(screenWidth).frameWidth,
-                spec.getCorrectFrameSize(screenWidth).frameHeight
+                spriteSpec.spriteSheet.frameWidth,
+                spriteSpec.spriteSheet.frameHeight
             )
         }
     }
@@ -88,18 +79,135 @@ fun SpriteView(
             .width(with(LocalDensity.current) { frameSize.width.toDp() })
             .height(with(LocalDensity.current) { frameSize.height.toDp() })
     ) {
-        // Calculate the offset to center the image
         val dstOffsetX = (size.width - frameSize.width.toFloat()) / 2
         val dstOffsetY = (size.height - frameSize.height.toFloat()) / 2
 
+        withTransform(
+            transformBlock = {
+                if (spriteFlip != null) {
+                    scale(
+                        scaleX = when (spriteFlip) {
+                            SpriteFlip.Both -> -1f
+                            SpriteFlip.Horizontal -> -1f
+                            else -> 1f
+                        },
+                        scaleY = when (spriteFlip) {
+                            SpriteFlip.Both -> -1f
+                            SpriteFlip.Vertical -> -1f
+                            else -> 1f
+                        },
+                        pivot = when (spriteFlip) {
+                            SpriteFlip.Horizontal -> {
+                                Offset(
+                                    x = dstOffsetX + frameSize.width / 2f,
+                                    y = dstOffsetY
+                                )
+                            }
+                            SpriteFlip.Vertical -> {
+                                Offset(
+                                    x = dstOffsetX,
+                                    y = dstOffsetY + frameSize.height / 2f
+                                )
+                            }
+                            else -> {
+                                Offset(
+                                    x = dstOffsetX + frameSize.width / 2f,
+                                    y = dstOffsetY + frameSize.height / 2f
+                                )
+                            }
+                        }
+                    )
+                }
+            }
+        ){
+            drawImage(
+                image = spriteImage,
+                srcOffset = frameOffset,
+                srcSize = frameSize,
+                dstOffset = IntOffset(
+                    dstOffsetX.toInt(),
+                    dstOffsetY.toInt()
+                ),
+                dstSize = frameSize
+            )
+        }
+    }
+}
+
+/**
+ * Function which is used to draw a sprite sheet inside the DrawScope of the Canvas.
+ *
+ * @param spriteState Control the sprite sheet animation.
+ * @param spriteSpec Sprite sheet specification with optional parameters for various screen dimensions.
+ * @param currentFrame The current frame of the sprite sheet animation.
+ * @param image Sprite sheet image that needs to be drawn on the canvas.
+ * @param offset An optional offset.
+ * @param spriteFlip Use it to flip the sprite Vertically, Horizontally or both Vertically and Horizontally.
+ * */
+fun DrawScope.drawSpriteView(
+    spriteState: SpriteState,
+    spriteSpec: SpriteSpec,
+    currentFrame: Int,
+    image: ImageBitmap,
+    offset: IntOffset = IntOffset.Zero,
+    spriteFlip: SpriteFlip? = null
+) {
+    // Get the row and column position based on the current frame
+    val row = currentFrame / spriteState.framesPerRow
+    val column = currentFrame % spriteState.framesPerRow
+
+    val frameSize = IntSize(
+        spriteSpec.spriteSheet.frameWidth,
+        spriteSpec.spriteSheet.frameHeight
+    )
+
+    val frameOffset = IntOffset(
+        x = column * frameSize.width,
+        y = row * frameSize.height
+    )
+    withTransform(
+        transformBlock = {
+            if (spriteFlip != null) {
+                scale(
+                    scaleX = when (spriteFlip) {
+                        SpriteFlip.Both -> -1f
+                        SpriteFlip.Horizontal -> -1f
+                        else -> 1f
+                    },
+                    scaleY = when (spriteFlip) {
+                        SpriteFlip.Both -> -1f
+                        SpriteFlip.Vertical -> -1f
+                        else -> 1f
+                    },
+                    pivot = when (spriteFlip) {
+                        SpriteFlip.Horizontal -> {
+                            Offset(
+                                x = offset.x + frameSize.width / 2f,
+                                y = offset.y.toFloat()
+                            )
+                        }
+                        SpriteFlip.Vertical -> {
+                            Offset(
+                                x = offset.x.toFloat(),
+                                y = offset.y + frameSize.height / 2f
+                            )
+                        }
+                        else -> {
+                            Offset(
+                                x = offset.x + frameSize.width / 2f,
+                                y = offset.y + frameSize.height / 2f
+                            )
+                        }
+                    }
+                )
+            }
+        }
+    ) {
         drawImage(
-            image = spriteImage,
+            image = image,
             srcOffset = frameOffset,
             srcSize = frameSize,
-            dstOffset = IntOffset(
-                dstOffsetX.toInt(),
-                dstOffsetY.toInt()
-            ),
+            dstOffset = offset,
             dstSize = frameSize
         )
     }

@@ -25,11 +25,11 @@ import org.jetbrains.compose.resources.DrawableResource
  *  * represented in px.
  * @param frameHeight The height of a single frame within the sprite sheet,
  * represented in px.
- * @param sheet The actual PNG/JPG image resources, that you have added
+ * @param image The actual PNG/JPG image resources, that you have added
  * to your project's common 'composeResource' directory.
  * */
 data class SpriteSheet(
     val frameWidth: Int,
     val frameHeight: Int,
-    val sheet: DrawableResource
+    val image: DrawableResource
 )

@@ -12,13 +12,14 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 /**
- * Manages the state of a sprite animation by controlling the frame transitions and animation timing.
+ * Manages the state of a sprite sheet animation by controlling the frame transitions and animation timing.
  *
  * The animation runs within a coroutine scope on the default dispatcher. It loops through the frames
  * at each interval specified by `animationSpeed` and resets when `stop()` is called.
  *
  * @param totalFrames The total number of frames in the sprite sheet. Determines the number of frames
  * that the animation cycles through.
+ * @param framesPerRow The number of frames that are included in the sprite sheet, per row.
  * @param animationSpeed Controlling the speed of the animation.
  *
  * @property currentFrame A [StateFlow] that emits the current frame index. Observers can use this
@@ -26,12 +27,11 @@ import kotlinx.coroutines.launch
  * @property isRunning A [StateFlow] that emits the running state of the animation, indicating
  * whether the animation is actively running or stopped.
  *
- * @constructor Initializes the `SpriteState` with a specified number of frames and animation duration.
- * Sets up a coroutine to handle the animation loop, listening to the `isRunning` state.
- *
+ * @constructor Initializes the `SpriteState` with a specified number of frames and animation speed.
  */
 class SpriteState(
     private val totalFrames: Int,
+    internal val framesPerRow: Int,
     private val animationSpeed: Long
 ) {
     private val _currentFrame = MutableStateFlow(value = 0)
@@ -63,7 +63,7 @@ class SpriteState(
 
     /**
      * Starts the sprite animation by setting the `isRunning` state to `true`, causing
-     * frames to update based on the specified animation duration.
+     * frames to update based on the specified animation speed.
      * */
     fun start() {
         _isRunning.value = true
@@ -88,7 +88,14 @@ class SpriteState(
 @Composable
 fun rememberSpriteState(
     totalFrames: Int,
+    framesPerRow: Int,
     animationSpeed: Long = 50L
 ): SpriteState {
-    return remember { SpriteState(totalFrames, animationSpeed) }
+    return remember {
+        SpriteState(
+            totalFrames,
+            framesPerRow,
+            animationSpeed
+        )
+    }
 }

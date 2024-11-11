@@ -13,7 +13,7 @@ package com.stevdza_san.sprite.domain
  * @property Small Reserved for smaller mobile devices from 0dp to 360dp in width.
  * @property Normal Reserved for normal mobile devices from 360dp to 600dp in width.
  * @property Large Reserved for larger mobile devices from 600dp to 800dp in width.
- * @property Tablet Reserved for tablet devices from 600dp to 800dp in width.
+ * @property Tablet Reserved for tablet devices from more then 800dp in width.
  * */
 enum class ScreenCategory {
     Small,
