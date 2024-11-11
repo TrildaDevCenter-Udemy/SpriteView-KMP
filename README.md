@@ -19,7 +19,9 @@ This is a simple UI component that allows you to render and play <b>Sprite Sheet
 3. Export the sprite sheet as a single .PNG file *(Remove the white background color so that your Sheet can be transparent)*.
 4. Scroll down below to read how to integrate it in your KMP/CMP project. This library works by iterating through the frames of the Sprite Sheet file that you have provided. You can even customize the speed of the animation.
 
+<p align="center">
 <img src="images/example.png?raw=true" width="350"/>
+</p>
 
 ## Gradle
 
