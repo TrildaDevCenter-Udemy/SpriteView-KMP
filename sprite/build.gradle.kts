@@ -11,7 +11,7 @@ plugins {
 }
 
 group = "com.stevdza_san"
-version = "1.0.3"
+version = "1.0.4"
 
 kotlin {
     androidTarget {
@@ -67,7 +67,7 @@ mavenPublishing {
     coordinates(
         "com.stevdza-san",
         "sprite",
-        "1.0.3"
+        "1.0.4"
     )
 
     // Configure POM metadata for the published artifact
