@@ -64,7 +64,6 @@ Column(
       .fillMaxSize()
       .onGloballyPositioned {
           screenWidth = it.size.width
-          screenHeight = it.size.height
     },
     verticalArrangement = Arrangement.Center,
     horizontalAlignment = Alignment.CenterHorizontally
@@ -190,7 +189,6 @@ Box(
       .fillMaxSize()
       .onGloballyPositioned {
           screenWidth = it.size.width
-          screenHeight = it.size.height
     },
   contentAlignment = Alignment.Center
 ) {
