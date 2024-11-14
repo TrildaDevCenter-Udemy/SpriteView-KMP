@@ -25,7 +25,10 @@ data class SpriteSpec(
     val large: SpriteSheet? = null,
     val tablet: SpriteSheet? = null
 ) {
-    private val screenCategory = screenWidth.parseCategory()
+    /**
+     * One of the four screen categories that are calculated based on the current screen width.
+     * */
+    val screenCategory = screenWidth.parseCategory()
     /**
      * [SpriteSheet] selected based on the current screen width.
      * Falls back to the `default` SpriteSheet if no screen-specific SpriteSheet is provided.
@@ -33,8 +36,8 @@ data class SpriteSpec(
     val spriteSheet =
         if (screenCategory == ScreenCategory.Small && small != null) small
         else if (screenCategory == ScreenCategory.Normal && normal != null) normal
-        else if (screenCategory == ScreenCategory.Normal && large != null) large
-        else if (screenCategory == ScreenCategory.Normal && tablet != null) tablet
+        else if (screenCategory == ScreenCategory.Large && large != null) large
+        else if (screenCategory == ScreenCategory.Tablet && tablet != null) tablet
         else default
 
     /**
