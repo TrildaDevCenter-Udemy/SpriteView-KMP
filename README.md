@@ -170,7 +170,7 @@ val spriteSpec = remember {
     )
   )
 }
-val sheetImage = spriteSpec.image
+val sheetImage = spriteSpec.imageBitmap
 
 DisposableEffect(Unit) {
   spriteState.start()
