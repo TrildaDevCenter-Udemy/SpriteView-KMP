@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://central.sonatype.com/artifact/com.stevdza-san/sprite"><img alt="Profile" src="https://badgen.net/badge/Maven Central/v1.0.4/blue?icon=github"/></a>
+  <a href="https://central.sonatype.com/artifact/com.stevdza-san/sprite"><img alt="Profile" src="https://badgen.net/badge/Maven Central/v1.0.6/blue?icon=github"/></a>
 </p>
 
 # <p align="center">🐰 SpriteView</p>
@@ -28,7 +28,7 @@ This is a simple UI component that allows you to render and play <b>Sprite Sheet
 You can add a dependency inside the `commonMain` source set:
 ```gradle
 commonMain.dependencies {
-    implementation("com.stevdza-san:sprite:1.0.4")
+    implementation("com.stevdza-san:sprite:1.0.6")
 }
 ```
 
@@ -44,7 +44,7 @@ commonMain.dependencies {
 Each `SpriteSheet` accepts `frameWidth`, `frameHeight` parameters, that represents a single frame of your `SpriteSheet` `image` represented in px, as well as the actual `image` resource that you have previously added in your common `composeResource` directory.
 
 ```kotlin
-var screenWidth by remember { mutableStateOf(0) }
+val screenWidth = getScreenWidth()
 val spriteState = rememberSpriteState(
     totalFrames = 9,
     framesPerRow = 3,
@@ -60,18 +60,14 @@ DisposableEffect(Unit) {
 }
 
 Column(
-    modifier = Modifier
-      .fillMaxSize()
-      .onGloballyPositioned {
-          screenWidth = it.size.width
-    },
+    modifier = Modifier.fillMaxSize(),
     verticalArrangement = Arrangement.Center,
     horizontalAlignment = Alignment.CenterHorizontally
 ) {
     SpriteView(
         spriteState = spriteState,
         spriteSpec = SpriteSpec(
-            screenWidth = screenWidth.toFloat(),
+            screenWidth = screenWidth.value,
             default = SpriteSheet(
                 frameWidth = 253,
                 frameHeight = 303,
@@ -119,7 +115,7 @@ Column(
     SpriteView(
         spriteState = spriteState,
         spriteSpec = SpriteSpec(
-            screenWidth = screenWidth.toFloat(),
+            screenWidth = screenWidth.value,
             default = SpriteSheet(
                 frameWidth = 253,
                 frameHeight = 303,
@@ -157,7 +153,7 @@ There's another useful function in this library, that allows you to add this spr
 2. `image` represents the `ImageBitmap` *(sprite sheet image)* that we have placed in the common composeResource directory. That object is available within the `SpriteSpec` object, which is in charge for choosing a correct sprite sheet image, based on the current `screenWidth`. 
 
 ```kotlin
-var screenWidth by remember { mutableStateOf(0) }
+val screenWidth = getScreenWidth()
 val spriteState = rememberSpriteState(
   totalFrames = 9,
   framesPerRow = 3,
@@ -166,7 +162,7 @@ val spriteState = rememberSpriteState(
 val currentFrame by spriteState.currentFrame.collectAsState()
 val spriteSpec = remember {
   SpriteSpec(
-    screenWidth = screenWidth.toFloat(),
+    screenWidth = screenWidth.value,
     default = SpriteSheet(
       frameWidth = 619,
       frameHeight = 740,
@@ -174,7 +170,7 @@ val spriteSpec = remember {
     )
   )
 }
-val sheetImage = spriteSpec.image
+val sheetImage = spriteSpec.imageBitmap
 
 DisposableEffect(Unit) {
   spriteState.start()
@@ -185,11 +181,7 @@ DisposableEffect(Unit) {
 }
 
 Box(
-  modifier = Modifier
-      .fillMaxSize()
-      .onGloballyPositioned {
-          screenWidth = it.size.width
-    },
+  modifier = Modifier.fillMaxSize(),
   contentAlignment = Alignment.Center
 ) {
   Canvas(modifier = Modifier.fillMaxSize()) {
