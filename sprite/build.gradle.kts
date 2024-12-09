@@ -1,6 +1,9 @@
 import com.vanniktech.maven.publish.SonatypeHost
+import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -8,12 +11,14 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.vanniktech.mavenPublish)
+    id("maven-publish")
 }
 
 group = "com.stevdza_san"
-version = "1.0.6"
+version = "1.1.0"
 
 kotlin {
+    jvm("desktop")
     androidTarget {
         publishLibraryVariants("release")
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
@@ -29,6 +34,19 @@ kotlin {
         it.binaries.framework {
             baseName = "sprite"
             isStatic = true
+        }
+    }
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        binaries.executable()
+        browser {
+            commonWebpackConfig {
+                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
+                    static = (static ?: mutableListOf()).apply {
+                        add(project.rootDir.path)
+                    }
+                }
+            }
         }
     }
 
@@ -67,7 +85,7 @@ mavenPublishing {
     coordinates(
         "com.stevdza-san",
         "sprite",
-        "1.0.6"
+        "1.1.0"
     )
 
     // Configure POM metadata for the published artifact
@@ -96,6 +114,20 @@ mavenPublishing {
         // Specify SCM information
         scm {
             url.set("https://github.com/stevdza-san/SpriteView-KMP")
+        }
+    }
+}
+
+compose.desktop {
+    application {
+        mainClass = "MainKt"
+
+        nativeDistributions {
+            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            packageName = "com.stevdza-san.sprite"
+            packageVersion = "1.1.0"
+            description = "SpriteView KMP"
+            copyright = "© 2024 Stevdza-San. All rights reserved."
         }
     }
 }
